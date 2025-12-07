@@ -210,7 +210,7 @@
       gap: 7px;
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
       max-width: 100%;
-      white-space: normal; /* allow wrapping on mobile */
+      white-space: normal;
     }
 
     .pill-dot {
@@ -672,10 +672,15 @@
 
         <article class="card">
           <div class="card-label">Mincha</div>
-          <div class="card-main">Erev/Daytime Shabbos</div>
+          <div class="card-main">Erev &amp; Daytime Shabbos</div>
           <div class="card-times">
-            Mincha: <span id="shabbosMinchaTime" class="dynamic-time">Loading…</span><br />
-            <span class="small-note">45 minutes before Shabbos sunset.</span>
+            Erev Shabbos Mincha:
+            <span id="erevShabbosMinchaTime" class="dynamic-time">Loading…</span><br />
+            Shabbos Mincha:
+            <span id="shabbosMinchaTime" class="dynamic-time">Loading…</span><br />
+            <span class="small-note">
+              Erev Shabbos: 15 minutes before sunset. Shabbos day: 45 minutes before sunset.
+            </span>
           </div>
         </article>
 
@@ -726,6 +731,8 @@
   const LNG = -74.02504208449552;
   const ZENITH_DEG = 90.0;
 
+  // Calibration: this Motzaei Shabbos Maariv was at 5:17 PM,
+  // defined as 50 minutes after shkiya.
   const CALIBRATION_ENABLED = true;
   const REFERENCE_SHABBOS = "2025-12-06";
   const REFERENCE_MOTZAEI_MAARIV = "17:17";
@@ -750,10 +757,12 @@
     return Math.floor(diff / oneDay);
   }
 
+  // NOAA solar calculator algorithm – sunset (UT hours) with configurable zenith
   function noaaSunsetUT(date, latDeg, lngDeg, zenithDeg) {
     const N = dayOfYear(date);
     const lngHour = lngDeg / 15.0;
 
+    // Approximate time for sunset
     const t = N + ((18 - lngHour) / 24.0);
 
     const M = (0.9856 * t) - 3.289;
@@ -866,6 +875,7 @@
     const monday = getMondayOfWeek(today);
     const sunsets = [];
 
+    // Mon–Fri sunset (with calibration)
     for (let i = 0; i < 5; i++) {
       const d = new Date(monday);
       d.setDate(monday.getDate() + i);
@@ -876,11 +886,13 @@
     try {
       if (!sunsets.length) throw new Error("No sunsets computed");
 
+      // earliest weekday sunset
       let earliest = sunsets[0];
       for (const s of sunsets) {
         if (s.getTime() < earliest.getTime()) earliest = s;
       }
 
+      // Mincha/Maariv = 15 minutes before shkiya
       const minchaTime = new Date(earliest.getTime() - 15 * 60 * 1000);
       const timeStr = formatTimeLocal(minchaTime);
 
@@ -910,29 +922,41 @@
       const sunset = getSunsetWithCalibration(shabbos);
       if (!sunset) throw new Error("No Shabbos sunset");
 
-      const mincha = new Date(sunset.getTime() - 45 * 60 * 1000);
+      // Erev Shabbos Mincha: 15 minutes before shkiya
+      const erevMincha = new Date(sunset.getTime() - 15 * 60 * 1000);
+      // Shabbos day Mincha: 45 minutes before shkiya
+      const shabbosMincha = new Date(sunset.getTime() - 45 * 60 * 1000);
+      // Motzaei Shabbos Maariv: 50 minutes after shkiya
       const maariv = new Date(sunset.getTime() + 50 * 60 * 1000);
 
-      const minchaStr = formatTimeLocal(mincha);
+      const erevMinchaStr = formatTimeLocal(erevMincha);
+      const shabbosMinchaStr = formatTimeLocal(shabbosMincha);
       const maarivStr = formatTimeLocal(maariv);
 
+      const erevMinchaEl = document.getElementById("erevShabbosMinchaTime");
       const shMincha = document.getElementById("shabbosMinchaTime");
       const shMaariv = document.getElementById("shabbosMaarivTime");
       const heroMincha = document.getElementById("heroShabbosMincha");
       const heroMaariv = document.getElementById("heroShabbosMaariv");
 
-      if (shMincha) shMincha.textContent = minchaStr;
+      if (erevMinchaEl) erevMinchaEl.textContent = erevMinchaStr;
+      if (shMincha) shMincha.textContent = shabbosMinchaStr;
       if (shMaariv) shMaariv.textContent = maarivStr;
-      if (heroMincha) heroMincha.textContent = minchaStr;
+      if (heroMincha) heroMincha.textContent = shabbosMinchaStr; // hero shows Shabbos-day Mincha
       if (heroMaariv) heroMaariv.textContent = maarivStr;
     } catch (e) {
       console.error(e);
       const fallback = "See local listing";
-      ["shabbosMinchaTime", "shabbosMaarivTime", "heroShabbosMincha", "heroShabbosMaariv"]
-        .forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.textContent = fallback;
-        });
+      [
+        "erevShabbosMinchaTime",
+        "shabbosMinchaTime",
+        "shabbosMaarivTime",
+        "heroShabbosMincha",
+        "heroShabbosMaariv"
+      ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = fallback;
+      });
     }
   }
 
