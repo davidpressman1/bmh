@@ -8,7 +8,7 @@
     :root {
       --bg: #020617;
       --bg-soft: #020617;
-      --accent: #60a5fa;      /* light blue accent */
+      --accent: #60a5fa;
       --accent-soft: rgba(96, 165, 250, 0.12);
       --card-bg: #020617;
       --text-main: #f9fafb;
@@ -40,6 +40,7 @@
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+      overflow-x: hidden;
     }
 
     .noise {
@@ -77,6 +78,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 0;
     }
 
     .brand-mark {
@@ -90,6 +92,7 @@
       background: #020617;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
       padding: 4px;
+      flex-shrink: 0;
     }
 
     .brand-mark img {
@@ -116,6 +119,8 @@
       display: flex;
       gap: 10px;
       font-size: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .nav-links a {
@@ -169,12 +174,13 @@
       .hero {
         grid-template-columns: minmax(0, 1fr);
         padding-top: 26px;
+        gap: 24px;
       }
     }
 
     .hero-copy h1 {
       margin: 0 0 12px;
-      font-size: clamp(32px, 4vw + 10px, 44px);
+      font-size: clamp(28px, 6vw, 44px);
       letter-spacing: 0.03em;
       color: var(--accent);
     }
@@ -202,8 +208,9 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      white-space: nowrap;
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+      max-width: 100%;
+      white-space: normal; /* allow wrapping on mobile */
     }
 
     .pill-dot {
@@ -212,6 +219,7 @@
       border-radius: 999px;
       background: radial-gradient(circle at 30% 30%, #bbf7d0 0, #22c55e 40%, #14532d 100%);
       box-shadow: 0 0 12px rgba(34, 197, 94, 0.85);
+      flex-shrink: 0;
     }
 
     .hero-card {
@@ -228,7 +236,6 @@
     }
 
     .hero-card::after {
-      /* faint big logo watermark inside hero card */
       content: "";
       position: absolute;
       right: -40px;
@@ -260,6 +267,7 @@
       font-weight: 700;
       color: #f9fafb;
       margin-bottom: 6px;
+      word-break: break-word;
     }
 
     .hero-card-sub {
@@ -307,6 +315,7 @@
       justify-content: space-between;
       gap: 10px;
       margin-bottom: 14px;
+      flex-wrap: wrap;
     }
 
     .section-title {
@@ -451,6 +460,52 @@
 
     .footer-right a:hover {
       text-decoration: underline;
+    }
+
+    /* Extra mobile tweaks */
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .nav-links a {
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 6px 10px;
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: 22px 14px 14px;
+      }
+
+      .section {
+        padding: 4px 14px 22px;
+      }
+
+      .hero-tagline {
+        font-size: 14px;
+      }
+
+      .card-main {
+        font-size: 15px;
+      }
+
+      .card-times {
+        font-size: 13px;
+      }
+
+      footer {
+        padding-inline: 14px;
+      }
     }
   </style>
 </head>
@@ -652,18 +707,6 @@
             Times are approximate halachic guidance; always follow your Rav for psak.
           </div>
         </article>
-
-        <!--<article class="card">
-          <div class="card-label">Dynamic Times</div>
-          <div class="card-main">How it works</div>
-          <div class="card-times">
-            The site calculates daily sunset for Mt Ivy and then:
-            <ul style="padding-left: 18px; margin: 6px 0 0; font-size: 12px; color: var(--text-muted);">
-              <li>Finds the earliest weekday sunset (Mon–Fri) this week, then sets Mincha/Maariv for 15 minutes before.</li>
-              <li>Finds the coming Shabbos sunset, then sets Mincha 45 minutes before and Maariv 50 minutes after.</li>
-            </ul>
-          </div>
-        </article>-->
       </div>
     </section>
   </main>
@@ -681,22 +724,20 @@
   // Exact coordinates for BMH – Mt Ivy, NY
   const LAT = 41.19392515448243;
   const LNG = -74.02504208449552;
-  const ZENITH_DEG = 90.0; // NOAA geometric sunset (90° zenith)
+  const ZENITH_DEG = 90.0;
 
-  // Calibration: this Motzaei Shabbos Maariv was at 5:17 PM,
-  // defined as 50 minutes after shkiyah.
   const CALIBRATION_ENABLED = true;
-  const REFERENCE_SHABBOS = "2025-12-06";     // YYYY-MM-DD for that Shabbos
-  const REFERENCE_MOTZAEI_MAARIV = "17:17";   // 5:17 PM (24h format)
-  const REFERENCE_MAARIV_OFFSET_MIN = 50;     // 50 minutes after shkiyah
+  const REFERENCE_SHABBOS = "2025-12-06";
+  const REFERENCE_MOTZAEI_MAARIV = "17:17";
+  const REFERENCE_MAARIV_OFFSET_MIN = 50;
 
-  let CAL_OFFSET_MS = 0; // computed at runtime
+  let CAL_OFFSET_MS = 0;
 
   function toDateParts(date) {
     const d = new Date(date);
     return {
       year: d.getFullYear(),
-      month: d.getMonth(),   // 0-based
+      month: d.getMonth(),
       day: d.getDate()
     };
   }
@@ -709,29 +750,28 @@
     return Math.floor(diff / oneDay);
   }
 
-  // NOAA solar calculator algorithm – sunset (UT hours) with configurable zenith
   function noaaSunsetUT(date, latDeg, lngDeg, zenithDeg) {
-    const N = dayOfYear(date); // day of year
+    const N = dayOfYear(date);
     const lngHour = lngDeg / 15.0;
 
     const t = N + ((18 - lngHour) / 24.0);
 
-    const M = (0.9856 * t) - 3.289; // Sun's mean anomaly
+    const M = (0.9856 * t) - 3.289;
 
     const sin = x => Math.sin(x * Math.PI / 180);
     const cos = x => Math.cos(x * Math.PI / 180);
     const tan = x => Math.tan(x * Math.PI / 180);
 
-    let L = M + (1.916 * sin(M)) + (0.020 * sin(2 * M)) + 282.634; // Sun's true longitude
+    let L = M + (1.916 * sin(M)) + (0.020 * sin(2 * M)) + 282.634;
     L = ((L % 360) + 360) % 360;
 
-    let RA = Math.atan(0.91764 * tan(L)) * 180 / Math.PI; // Right ascension
+    let RA = Math.atan(0.91764 * tan(L)) * 180 / Math.PI;
     RA = ((RA % 360) + 360) % 360;
 
     const Lquadrant = Math.floor(L / 90) * 90;
     const RAquadrant = Math.floor(RA / 90) * 90;
     RA = RA + (Lquadrant - RAquadrant);
-    RA /= 15.0; // hours
+    RA /= 15.0;
 
     const sinDec = 0.39782 * sin(L);
     const cosDec = Math.cos(Math.asin(sinDec));
