@@ -1,5 +1,4 @@
- <style>
-    :root {
+:root {
       --bg: #020617;
       --bg-soft: #020617;
       --accent: #60a5fa;
@@ -502,5 +501,3 @@
         padding-inline: 14px;
       }
     }
-
-  </style>
