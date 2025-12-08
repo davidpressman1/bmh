@@ -1,5 +1,4 @@
-<script>
-  // Exact coordinates for BMH – Mt Ivy, NY
+// Exact coordinates for BMH – Mt Ivy, NY
   const LAT = 41.19392515448243;
   const LNG = -74.02504208449552;
   const ZENITH_DEG = 90.0;
@@ -241,4 +240,3 @@
     updateWeekdayMinchaMaariv();
     updateShabbosTimes();
   });
-</script>
