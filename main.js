@@ -231,7 +231,33 @@ async function updateShabbosTimes() {
     });
   }
 }
+async function updateParsha() {
+  const parshaEl = document.getElementById("parshaName");
+  if (!parshaEl) return;
 
+  try {
+    // Hebcal Shabbat API for your coordinates (Mt Ivy area), diaspora
+    const url =
+      "https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude=41.19392515448243&longitude=-74.02504208449552&m=50&leyning=on";
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+
+    // Look for the parsha item
+    const parshaItem = data.items.find((item) => item.category === "parashat");
+
+    if (parshaItem) {
+      // Prefer Hebrew name if available
+      parshaEl.textContent = parshaItem.hebrew || parshaItem.title || "—";
+    } else {
+      parshaEl.textContent = "—";
+    }
+  } catch (err) {
+    console.error("Error fetching parsha:", err);
+    parshaEl.textContent = "—";
+  }
+}
 document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -239,4 +265,5 @@ document.addEventListener("DOMContentLoaded", () => {
   CAL_OFFSET_MS = computeCalibrationOffsetMs();
   updateWeekdayMinchaMaariv();
   updateShabbosTimes();
+  updateParsha();
 });
