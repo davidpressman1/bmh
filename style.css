@@ -12,7 +12,7 @@
       --radius-xl: 24px;
       --radius-lg: 18px;
       --transition-fast: 160ms ease-out;
-      --logo-url: url("https://www.kollect.live/bmh/wp-content/uploads/2024/03/bmh-logo.png");
+      --logo-url: url("./bmh-logo.png");
     }
 
     * {
@@ -20,6 +20,7 @@
     }
 
     body {
+     background-color: #020617; /* deep navy base */
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
@@ -501,4 +502,5 @@
         padding-inline: 14px;
       }
     }
+
   </style>
