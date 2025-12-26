@@ -13,14 +13,16 @@
     <div class="nav-inner">
       <div class="brand">
         <div class="brand-mark">
-          <img src="https://bmofhaverstraw.org/bmh-logo.png"
-               alt="BMH logo" />
+          <img src="https://bmofhaverstraw.org/bmh-logo.png" alt="BMH logo" />
         </div>
         <div>
           <div class="brand-text-main">Bais Medrash of Haverstraw</div>
-          <div class="brand-text-sub">Warm minyanim in the heart of Haverstraw, NY</div>
+          <div class="brand-text-sub">
+            Warm minyanim in the heart of Haverstraw, NY
+          </div>
         </div>
       </div>
+
       <nav class="nav-links">
         <a href="#schedule" class="active">Schedule</a>
         <a href="#shabbos">Shabbos</a>
@@ -31,38 +33,58 @@
   </header>
 
   <main>
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-copy">
         <h1>Bais Medrash of Haverstraw</h1>
-        <p class="hero-tagline">
-          <!--Weekday and Shabbos times adjust automatically weekly.-->
-        </p>
+
+        <p class="hero-tagline"></p>
+
         <div class="hero-meta">
           <div class="pill">
             <span class="pill-dot"></span>
-            <span>Today’s weekday Mincha/Maariv:
+            <span>
+              Today’s weekday Mincha/Maariv:
               <span id="heroWeekdayMincha" class="dynamic-time">Loading…</span>
             </span>
           </div>
+
           <div class="pill">
-            <span>Shabbos Mincha:
+            <span>
+              Shabbos Mincha:
               <span id="heroShabbosMincha" class="dynamic-time">Loading…</span>
             </span>
           </div>
+
           <div class="pill">
-            <span>Shabbos Maariv:
+            <span>
+              Shabbos Maariv:
               <span id="heroShabbosMaariv" class="dynamic-time">Loading…</span>
             </span>
           </div>
+
+          <!-- NEWSLETTER BUTTON -->
+          <a
+  class="pill pill-link"
+  id="newsletterBtn"
+  href="BMH%20Weekly%20Newsletter.pdf"
+  target="_blank"
+  rel="noopener"
+>
+  📄 <span id="newsletterParsha">This Week’s Newsletter</span>
+</a>
         </div>
       </div>
 
+      <!-- HERO CARD -->
       <aside class="hero-card" aria-label="This week at a glance">
         <div class="hero-card-inner">
           <div class="hero-card-title">This Week at BMH</div>
+
           <div class="hero-card-time">
             <span id="heroPrimaryLabel">Weekday Minyanim</span>
           </div>
+
           <div class="hero-card-sub">
             Based on the earliest weekday sunset in Mt Ivy, NY for this week.
           </div>
@@ -70,8 +92,14 @@
           <div class="hero-card-grid">
             <div class="hero-mini">
               <div class="hero-mini-label">Mincha/Maariv (Sun–Thu)</div>
-              <div class="hero-mini-value" id="weekdayMinchaMaariv">Loading…</div>
+              <div
+                class="hero-mini-value"
+                id="weekdayMinchaMaariv"
+              >
+                Loading…
+              </div>
             </div>
+
             <div class="hero-mini">
               <div class="hero-mini-label">Regular Maariv (Weeknights)</div>
               <div class="hero-mini-value">
@@ -80,30 +108,36 @@
             </div>
           </div>
 
-          <div class="hero-card-grid" style="margin-top: 10px;">
+          <div class="hero-card-grid" style="margin-top:10px;">
             <div class="hero-mini">
               <div class="hero-mini-label">Shacharis (Mon–Fri)</div>
               <div class="hero-mini-value">6:25&nbsp;AM</div>
             </div>
+
             <div class="hero-mini">
               <div class="hero-mini-label">Shacharis (Sun)</div>
-              <div class="hero-mini-value">7:00&nbsp;AM &middot; 8:30&nbsp;AM</div>
+              <div class="hero-mini-value">
+                7:00&nbsp;AM &middot; 8:30&nbsp;AM
+              </div>
             </div>
           </div>
         </div>
       </aside>
     </section>
 
+    <!-- WEEKDAY SCHEDULE -->
     <section class="section" id="schedule">
       <div class="section-header">
         <div class="section-title">Weekday Schedule</div>
-        <div class="section-subtitle">All times local to Mt Ivy, NY (America/New_York)</div>
+        <div class="section-subtitle">
+          All times local to Mt Ivy, NY (America/New_York)
+        </div>
       </div>
 
       <div class="grid">
         <article class="card">
           <div class="card-label">Shacharis</div>
-          <div class="card-main">Monday &ndash; Friday</div>
+          <div class="card-main">Monday – Friday</div>
           <div class="card-times">
             Shacharis: <strong>6:25&nbsp;AM</strong>
           </div>
@@ -126,13 +160,23 @@
 
         <article class="card">
           <div class="card-label">Mincha &amp; Maariv</div>
-          <div class="card-main">Sun &ndash; Thu</div>
+          <div class="card-main">Sun – Thu</div>
           <div class="card-times">
-            Mincha/Maariv: <span id="weekdayMinchaMaarivCard" class="dynamic-time">Loading…</span><br />
-            <span class="small-note">15 minutes before the earliest weekday shkiya (Sun–Thursday) of this week.</span>
+            Mincha/Maariv:
+            <span
+              id="weekdayMinchaMaarivCard"
+              class="dynamic-time"
+            >
+              Loading…
+            </span><br />
+            <span class="small-note">
+              15 minutes before the earliest weekday shkiya (Sun–Thursday).
+            </span>
           </div>
           <div class="chip-row">
-            <span class="chip chip-accent">Auto-adjusts with sunset</span>
+            <span class="chip chip-accent">
+              Auto-adjusts with sunset
+            </span>
           </div>
         </article>
 
@@ -150,12 +194,16 @@
       </div>
     </section>
 
+    <!-- SHABBOS -->
     <section class="section" id="shabbos">
       <div class="section-header">
         <div class="section-title">Shabbos Schedule</div>
-        <div class="section-subtitle">Shabbos times update weekly from sunset in Mt Ivy</div>
-        <span dir="rtl"> <span id="parshaName">טוען…</span></span>
-         </div>
+        <div class="section-subtitle">
+          Shabbos times update weekly from sunset in Mt Ivy
+        </div>
+        <span dir="rtl">
+          <span id="parshaName">טוען…</span>
+        </span>
       </div>
 
       <div class="grid">
@@ -179,7 +227,8 @@
             Shabbos Mincha:
             <span id="shabbosMinchaTime" class="dynamic-time">Loading…</span><br />
             <span class="small-note">
-              Erev Shabbos: 15 minutes before sunset. Shabbos day: 45 minutes before sunset.
+              Erev Shabbos: 15 minutes before sunset.
+              Shabbos day: 45 minutes before sunset.
             </span>
           </div>
         </article>
@@ -188,17 +237,23 @@
           <div class="card-label">Maariv</div>
           <div class="card-main">Motzaei Shabbos</div>
           <div class="card-times">
-            Maariv: <span id="shabbosMaarivTime" class="dynamic-time">Loading…</span><br />
-            <span class="small-note">50 minutes after Shabbos sunset.</span>
+            Maariv:
+            <span id="shabbosMaarivTime" class="dynamic-time">Loading…</span><br />
+            <span class="small-note">
+              50 minutes after Shabbos sunset.
+            </span>
           </div>
         </article>
       </div>
     </section>
 
+    <!-- INFO -->
     <section class="section" id="info">
       <div class="section-header">
         <div class="section-title">Kehilla Info</div>
-        <div class="section-subtitle">Bais Medrash of Haverstraw &middot; Mt Ivy, NY</div>
+        <div class="section-subtitle">
+          Bais Medrash of Haverstraw · Mt Ivy, NY
+        </div>
       </div>
 
       <div class="grid">
@@ -206,10 +261,12 @@
           <div class="card-label">Location</div>
           <div class="card-main">Mt Ivy, New York</div>
           <div class="card-times">
-            All zmanim are calculated using precise coordinates near Mt Ivy, NY and the America/New_York time zone.
+            All zmanim are calculated using precise coordinates near Mt Ivy, NY
+            and the America/New_York time zone.
           </div>
           <div class="small-note">
-            Times are approximate halachic guidance; always follow your Rav for psak.
+            Times are approximate halachic guidance.
+            Always follow your Rav for psak.
           </div>
         </article>
       </div>
@@ -218,12 +275,15 @@
 
   <footer>
     <div class="footer-left">
-      &copy; <span id="year"></span> Bais Medrash of Haverstraw (BMH). All rights reserved.
+      &copy; <span id="year"></span>
+      Bais Medrash of Haverstraw (BMH).
+      All rights reserved.
     </div>
     <div class="footer-right">
       Sunset calculations based on the NOAA solar formula and local calibration.
     </div>
   </footer>
-<script src="main.js" defer></script>
+
+  <script src="main.js" defer></script>
 </body>
 </html>
