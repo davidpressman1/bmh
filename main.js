@@ -267,3 +267,20 @@ document.addEventListener("DOMContentLoaded", () => {
   updateShabbosTimes();
   updateParsha();
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const parshaEl = document.getElementById("parshaName");
+  const btnText = document.getElementById("newsletterParsha");
+
+  if (!parshaEl || !btnText) return;
+
+  // Watch for when parshaName gets populated
+  const observer = new MutationObserver(() => {
+    const parsha = parshaEl.textContent.trim();
+    if (parsha && parsha !== "טוען…") {
+      btnText.textContent = `Parshas ${parsha}`;
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(parshaEl, { childList: true });
+});
