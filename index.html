@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BMH | Weekly Schedule</title>
+  <title>Bais Medrash of Haverstraw</title>
   <style>
-    /* Mimicking the original "noise" and clean aesthetic */
     body {
       margin: 0;
       padding: 0;
@@ -14,93 +13,152 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      background-color: #0f172a; /* Deep dark blue from the original theme */
+      background-color: #0d1425; /* Exact dark navy from image */
       color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      overflow: hidden;
-    }
-
-    /* The subtle texture overlay from your original site */
-    .noise {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      opacity: 0.05;
-      background-image: url("https://bmofhaverstraw.org/noise.png"); /* Assuming this link exists from your CSS */
-      z-index: 1;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      text-align: center;
     }
 
     .container {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
     }
 
-    .brand-mark img {
+    /* Circular Logo Styling */
+    .logo-container {
       width: 120px;
-      height: auto;
-      margin-bottom: 1.5rem;
+      height: 120px;
+      margin: 0 auto 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.1);
     }
 
-    .brand-text-main {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      margin-bottom: 0.5rem;
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .brand-text-sub {
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .location {
       font-size: 1rem;
       color: #94a3b8;
-      margin-bottom: 2.5rem;
+      margin-bottom: 40px;
+      font-weight: 400;
     }
 
-    .schedule-btn {
-      display: inline-flex;
+    /* Button Styles */
+    .btn {
+      display: flex;
       align-items: center;
-      gap: 12px;
-      background-color: #ffffff;
-      color: #0f172a;
-      padding: 18px 36px;
-      border-radius: 50px;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 50px; /* Pill shape */
       text-decoration: none;
       font-weight: 600;
-      font-size: 1.1rem;
-      transition: transform 0.2s ease, background-color 0.2s ease;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      font-size: 1.05rem;
+      transition: opacity 0.2s;
     }
 
-    .schedule-btn:hover {
-      background-color: #f1f5f9;
-      transform: translateY(-3px);
+    /* Primary Schedule Button */
+    .btn-white {
+      background-color: #ffffff;
+      color: #0d1425;
     }
 
-    .footer-note {
-      margin-top: 3rem;
-      font-size: 0.85rem;
+    /* Donation Buttons */
+    .btn-outline {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .zelle-subtext {
+      display: block;
+      font-size: 0.8rem;
       color: #64748b;
+      margin-top: 4px;
+      font-family: monospace;
+    }
+
+    .charity-info {
+      font-size: 0.75rem;
+      color: #475569;
+      margin-top: 20px;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    #copy-status {
+      font-size: 0.7rem;
+      color: #38bdf8;
+      margin-left: 5px;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="noise"></div>
 
   <div class="container">
-    <div class="brand-mark">
-      <img src="https://bmofhaverstraw.org/bmh-logo.png" alt="BMH logo" />
+    <div class="logo-container">
+      <img src="https://bmofhaverstraw.org/bmh-logo.png" alt="BMH Logo">
     </div>
-    
-    <div class="brand-text-main">Bais Medrash of Haverstraw</div>
-    <div class="brand-text-sub">Mt Ivy, New York</div>
 
-    <a href="https://bmofhaverstraw.org/BMHWeeklyNewsletter.pdf" class="schedule-btn" target="_blank" rel="noopener">
-      <span>📄</span> Open This Week's Schedule
+    <h1>Bais Medrash of Haverstraw</h1>
+    <div class="location">Mt Ivy, New York</div>
+
+    <a href="https://bmofhaverstraw.org/BMHWeeklyNewsletter.pdf" class="btn btn-white" target="_blank">
+      📄 Open This Week's Schedule
     </a>
 
-    <div class="footer-note">
-      &copy; 2026 Bais Medrash of Haverstraw
+    <div style="margin-top: 30px;">
+      <a href="https://secure.cardknox.com/baismedrashofhaverstraw" class="btn btn-outline" target="_blank">
+        💳 Donate via Credit Card
+      </a>
+
+      <div class="btn btn-outline" style="cursor: pointer; flex-direction: column; gap: 2px;" onclick="copyZelle()">
+        <div>💸 Donate via Zelle <span id="copy-status">Copied!</span></div>
+        <span class="zelle-subtext">bmhdonate@gmail.com</span>
+      </div>
+      
+      <div class="charity-info">501(c)(3) charity organization</div>
     </div>
+
+    <footer>
+      &copy; 2026 Bais Medrash of Haverstraw
+    </footer>
   </div>
+
+  <script>
+    function copyZelle() {
+      const email = "bmhdonate@gmail.com";
+      navigator.clipboard.writeText(email).then(() => {
+        const status = document.getElementById('copy-status');
+        status.style.display = 'inline';
+        setTimeout(() => { status.style.display = 'none'; }, 2000);
+      });
+    }
+  </script>
+
 </body>
 </html>
